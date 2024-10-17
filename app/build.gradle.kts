@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -15,6 +17,27 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val keystoreFile = project.rootProject.file("api.properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+
+        val clientID = properties.getProperty("FOURSQUARE_CLIENT_ID") ?: ""
+        buildConfigField(
+            type = "String",
+            name = "FOURSQUARE_CLIENT_ID",
+            value = clientID
+        )
+
+        val clientSecret = properties.getProperty("FOURSQUARE_CLIENT_SECRET")
+        buildConfigField(
+            type = "String",
+            name = "FOURSQUARE_CLIENT_ID",
+            value = clientSecret
+        )
+
+        val googleApiKey = properties.getProperty("GOOGLE_MAPS_API") ?: ""
+        manifestPlaceholders["GOOGLE_MAP_KEY"] = googleApiKey
     }
 
     buildTypes {
