@@ -29,15 +29,16 @@ data class LabeledLatLngs(
 @Serializable
 data class Location(
     val address: String,
-    val crossStreet: String,
+    val crossStreet: String? = null,
     val lat: Float,
     val lng: Float,
     val labeledLatLngs: List<LabeledLatLngs>,
     val distance: Int,
-    val postalCode: String,
+    val postalCode: String? = null,
     val cc: String,
     val city: String,
     val state: String,
+    val country: String,
     val formattedAddress: List<String>
 )
 
@@ -50,7 +51,7 @@ data class Meta(
 @Serializable
 data class Response(
     val venues: List<Venue>,
-    val categories: List<Category>?
+    val categories: List<Category>? = null
 )
 
 @Serializable

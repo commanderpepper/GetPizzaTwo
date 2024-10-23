@@ -9,6 +9,10 @@ android {
     namespace = "commanderpepper.getpizza"
     compileSdk = 34
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "commanderpepper.getpizza"
         minSdk = 26

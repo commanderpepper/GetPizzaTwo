@@ -19,4 +19,8 @@ dependencies {
     implementation(libs.okhttp.interceptor)
 
     implementation(libs.koin.core)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.coroutines.test)
 }
