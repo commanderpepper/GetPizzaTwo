@@ -1,4 +1,4 @@
-package commanderpepper.getpizza.remote.foursquare
+package commanderpepper.getpizza.model.remote.foursquare
 
 import kotlinx.serialization.Serializable
 

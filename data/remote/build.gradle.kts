@@ -10,6 +10,13 @@ java {
 }
 
 dependencies {
-    // Serialization
+    implementation(project(":model"))
+
     implementation(libs.kotlinx.serialization)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.kotinx.serialization)
+    implementation(libs.okhttp.interceptor)
+
+    implementation(libs.koin.core)
 }
