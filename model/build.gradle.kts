@@ -12,4 +12,6 @@ java {
 dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization)
+
+    implementation(libs.androidx.room.common)
 }
