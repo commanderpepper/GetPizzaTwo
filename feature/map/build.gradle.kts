@@ -49,6 +49,16 @@ dependencies {
     implementation(libs.androidx.compose.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
+    //Google Maps
+    implementation(libs.google.maps)
+
+    //Viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel)
+
+    //Koin
+    implementation(libs.koin.core)
+    implementation(libs.koin.compose)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

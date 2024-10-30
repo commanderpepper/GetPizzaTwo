@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -11,6 +12,7 @@ android {
 
     buildFeatures {
         buildConfig = true
+        compose = true
     }
 
     defaultConfig {
@@ -67,6 +69,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
