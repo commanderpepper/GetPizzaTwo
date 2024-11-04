@@ -19,8 +19,4 @@ interface PizzaDAO  {
 
     @Delete
     suspend fun deletePizzaFav(pizzaFav: PizzaFav)
-
-    @VisibleForTesting
-    @Query("DELETE FROM pizzafav")
-    fun clearTableForTesting()
 }

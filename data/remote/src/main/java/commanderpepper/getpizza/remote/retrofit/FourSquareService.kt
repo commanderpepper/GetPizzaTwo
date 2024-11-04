@@ -12,7 +12,7 @@ interface FourSquareService {
         @Query("ll")
         latLng: String,
         @Query("categoryId")
-        categoryId: String,
+        categoryId: String = "4bf58dd8d48988d1ca941735",
         @Query("intent")
         intent: String = "browse",
         @Query("radius")

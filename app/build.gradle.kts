@@ -65,10 +65,24 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:util"))
+    implementation(project(":feature:map"))
+    implementation(project(":data:local"))
+    implementation(project(":data:remote"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
+    //Compose
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.preview)
+    implementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.androidx.activity.compose)
+
+    //Koin
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

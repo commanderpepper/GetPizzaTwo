@@ -1,6 +1,7 @@
 package commanderpepper.getpizza.local.room.di
 
 import androidx.room.Room
+import commanderpepper.getpizza.local.repo.PizzaRepo
 import commanderpepper.getpizza.local.room.PizzaDAO
 import commanderpepper.getpizza.local.room.PizzaDatabase
 import org.koin.android.ext.koin.androidApplication
@@ -13,5 +14,8 @@ val localModule = module {
     single<PizzaDAO> {
         val db = get<PizzaDatabase>()
         db.pizzaDao()
+    }
+    factory {
+        PizzaRepo(get(), get(), get())
     }
 }

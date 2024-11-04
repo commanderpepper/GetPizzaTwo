@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -20,9 +22,9 @@ import commanderpepper.getpizza.model.feature.map.PizzaMarkerUIState
 
 @Composable
 fun PizzaMarkerUI(pizzaMarkerUIState: PizzaMarkerUIState) {
-    val isExpanded = remember { mutableStateOf(false) }
-    if (isExpanded.value) {
-        Card(modifier = Modifier.padding(4.dp), onClick = { isExpanded.value = false }) {
+    var isExpanded : Boolean by remember { mutableStateOf(false) }
+    if (isExpanded) {
+        Card(modifier = Modifier.padding(4.dp), onClick = { isExpanded = false }) {
             Text(modifier = Modifier.padding(4.dp), text = pizzaMarkerUIState.name)
             if (pizzaMarkerUIState.address.isNullOrEmpty().not()) {
                 Text(modifier = Modifier.padding(4.dp), text = pizzaMarkerUIState.address!!)
@@ -31,7 +33,7 @@ fun PizzaMarkerUI(pizzaMarkerUIState: PizzaMarkerUIState) {
     } else {
         Row(modifier = Modifier
             .padding(4.dp)
-            .clickable { isExpanded.value = true }
+            .clickable { isExpanded = true }
         , verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     modifier = Modifier.padding(4.dp),
