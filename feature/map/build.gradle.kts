@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    implementation(libs.google.accompanist.permissions)
 
     //Google Maps
     implementation(libs.google.maps)
