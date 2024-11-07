@@ -1,6 +1,7 @@
 package commanderpepper.getpizza
 
 import android.app.Application
+import com.example.androidutil.di.androidUtilModule
 import commanderpepper.getpizza.di.remoteModule
 import commanderpepper.getpizza.local.room.di.localModule
 import commanderpepper.getpizza.map.pizzaMapScreenModule
@@ -13,7 +14,7 @@ class PizzaMapApplication: Application() {
         super.onCreate()
         startKoin {
             androidContext(this@PizzaMapApplication)
-            modules(pizzaMapScreenModule, localModule, remoteModule, utilModule)
+            modules(pizzaMapScreenModule, localModule, remoteModule, utilModule, androidUtilModule)
         }
     }
 }

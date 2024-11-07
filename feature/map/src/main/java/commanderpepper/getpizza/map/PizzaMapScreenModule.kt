@@ -4,5 +4,5 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val pizzaMapScreenModule = module {
-    viewModel { PizzaMapScreenViewModel(get(), get()) }
+    viewModel { PizzaMapScreenViewModel(get(), get(), get()) }
 }

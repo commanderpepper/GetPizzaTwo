@@ -69,10 +69,12 @@ dependencies {
     implementation(project(":feature:map"))
     implementation(project(":data:local"))
     implementation(project(":data:remote"))
+    implementation(project(":core:androidUtil"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.play.services.location)
 
     //Compose
     implementation(libs.androidx.compose.material3)
