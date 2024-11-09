@@ -28,7 +28,7 @@ class PizzaMapScreenViewModel(
         viewModelScope.launch {
             val location = locationProvider.provideLocation()
             val markers = repo.getLocations(latitude = location.latitude, longitude = location.longitude).map { pizzaUseCaseToPizzaMarkerUIStateUseCase(it).copy() }
-            _uiState.value = if(markers.isEmpty()) PizzaMapScreenUIState.Error else PizzaMapScreenUIState.Success(markers)
+            _uiState.value = if(markers.isEmpty()) PizzaMapScreenUIState.Error else PizzaMapScreenUIState.Success(markers, location)
         }
     }
 }

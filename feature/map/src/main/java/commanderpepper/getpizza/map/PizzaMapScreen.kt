@@ -27,6 +27,7 @@ import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberMarkerState
 import commanderpepper.getpizza.model.feature.map.PizzaMarkerUIState
+import commanderpepper.getpizza.model.util.SimpleLocation
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -48,16 +49,15 @@ fun PizzaMapScreen(modifier: Modifier, uiState: PizzaMapScreenUIState){
 
         }
         is PizzaMapScreenUIState.Success -> {
-            PizzaMapScreen(modifier = modifier, pizzaMarkers = uiState.pizzaMarkers)
+            PizzaMapScreen(modifier = modifier, pizzaMarkers = uiState.pizzaMarkers, location = uiState.simpleLocation)
         }
     }
 }
 
 @Composable
-fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>) {
-    val newYork = LatLng(40.71, -74.00)
+fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, location : SimpleLocation) {
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(newYork, 12f)
+        position = CameraPosition.fromLatLngZoom(LatLng(location.latitude, location.longitude), 12f)
     }
 
     GoogleMap(
@@ -86,7 +86,7 @@ fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>) {
 @Preview
 @Composable
 fun PizzaMapScreenPreview(){
-    PizzaMapScreen(modifier = Modifier.fillMaxSize(), pizzaMarkers = emptyList<PizzaMarkerUIState>())
+    PizzaMapScreen(modifier = Modifier.fillMaxSize(), pizzaMarkers = emptyList<PizzaMarkerUIState>(), SimpleLocation(40.77,-73.97))
 }
 
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)

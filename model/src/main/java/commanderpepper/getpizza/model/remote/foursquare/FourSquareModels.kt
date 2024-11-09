@@ -28,7 +28,7 @@ data class LabeledLatLngs(
 
 @Serializable
 data class Location(
-    val address: String,
+    val address: String? = null,
     val crossStreet: String? = null,
     val lat: Float,
     val lng: Float,
