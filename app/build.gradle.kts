@@ -70,11 +70,13 @@ dependencies {
     implementation(project(":data:local"))
     implementation(project(":data:remote"))
     implementation(project(":core:androidUtil"))
+    implementation(project(":model"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.play.services.location)
+    implementation(libs.androidx.navigation)
 
     //Compose
     implementation(libs.androidx.compose.material3)
