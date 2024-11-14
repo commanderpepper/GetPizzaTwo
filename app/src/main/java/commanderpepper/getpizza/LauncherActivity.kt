@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.permissions.PermissionsScreen
 import commanderpepper.getpizza.map.PizzaMapScreen
 import commanderpepper.getpizza.model.ui.FavoritesDestination
 import commanderpepper.getpizza.model.ui.MapDestination
@@ -32,7 +33,16 @@ class LauncherActivity : ComponentActivity() {
 
                 }
                 composable<PermissionsDestination> {
-
+                    PermissionsScreen(
+                        onDismiss = { lat, lng ->
+                            val mapDestination = MapDestination(lat, lng)
+                            navController.navigate(mapDestination)
+                        },
+                        onPermissionGranted = { lat, lng ->
+                            val mapDestination = MapDestination(lat, lng)
+                            navController.navigate(mapDestination)
+                        }
+                    )
                 }
             }
         }

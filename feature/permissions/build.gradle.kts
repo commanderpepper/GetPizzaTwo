@@ -47,6 +47,15 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.google.accompanist.permissions)
 
+    implementation(libs.timber)
+
+    //Koin
+    implementation(libs.koin.core)
+    implementation(libs.koin.compose)
+
+    //Viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

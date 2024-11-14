@@ -67,6 +67,7 @@ android {
 dependencies {
     implementation(project(":core:util"))
     implementation(project(":feature:map"))
+    implementation(project(":feature:permissions"))
     implementation(project(":data:local"))
     implementation(project(":data:remote"))
     implementation(project(":core:androidUtil"))
@@ -77,6 +78,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.play.services.location)
     implementation(libs.androidx.navigation)
+    implementation(libs.timber)
 
     //Compose
     implementation(libs.androidx.compose.material3)
