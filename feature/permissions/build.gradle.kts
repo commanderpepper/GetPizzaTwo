@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.androidx.compose.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.google.accompanist.permissions)
+    implementation(libs.androidx.activity.compose)
 
     implementation(libs.timber)
 

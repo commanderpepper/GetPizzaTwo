@@ -34,7 +34,6 @@ import org.koin.androidx.compose.koinViewModel
 fun PizzaMapScreen(modifier: Modifier = Modifier.fillMaxSize(), viewModel: PizzaMapScreenViewModel = koinViewModel()){
     val uiState = viewModel.uiState.collectAsState()
     Box(modifier = modifier){
-        RequestLocationPermission()
         PizzaMapScreen(modifier = Modifier.fillMaxSize(), uiState = uiState.value)
     }
 }
@@ -87,28 +86,4 @@ fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, l
 @Composable
 fun PizzaMapScreenPreview(){
     PizzaMapScreen(modifier = Modifier.fillMaxSize(), pizzaMarkers = emptyList<PizzaMarkerUIState>(), SimpleLocation(40.77,-73.97))
-}
-
-@OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
-@Composable
-fun RequestLocationPermission() {
-    val permissionState =
-        rememberPermissionState(android.Manifest.permission.ACCESS_COARSE_LOCATION)
-    if (permissionState.status.isGranted.not()) {
-        val rationalText = if (permissionState.status.shouldShowRationale) {
-            "Getting your location will show pizza joints near you"
-        } else {
-            "Getting your location will show pizza joints near you or you'll be dropped in New York"
-        }
-        BasicAlertDialog(onDismissRequest = { }) {
-            Card() {
-                Text(modifier = Modifier.padding(8.dp), text = rationalText)
-                Button(
-                    modifier = Modifier.padding(8.dp),
-                    onClick = { permissionState.launchPermissionRequest() }) {
-                    Text("Request permission")
-                }
-            }
-        }
-    }
 }
