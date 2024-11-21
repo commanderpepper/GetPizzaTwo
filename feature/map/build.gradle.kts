@@ -48,6 +48,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.navigation)
 
+    implementation(libs.timber)
+
     //Compose
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.preview)

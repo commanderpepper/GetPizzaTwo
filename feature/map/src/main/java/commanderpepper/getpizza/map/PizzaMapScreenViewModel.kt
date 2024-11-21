@@ -33,8 +33,15 @@ class PizzaMapScreenViewModel(
         viewModelScope.launch {
             val mapDestination = savedStateHandle.toRoute<MapDestination>()
             val location = SimpleLocation(latitude = mapDestination.latitude, longitude = mapDestination.longitude)
-            val markers = repo.getLocations(latitude = location.latitude, longitude = location.longitude).map { pizzaUseCaseToPizzaMarkerUIStateUseCase(it).copy() }
+            val markers = repo.getLocations(latitude = location.latitude, longitude = location.longitude).map { pizzaUseCaseToPizzaMarkerUIStateUseCase(it) }
             _uiState.value = if(markers.isEmpty()) PizzaMapScreenUIState.Error else PizzaMapScreenUIState.Success(markers, location)
+        }
+    }
+
+    fun updateLocation(simpleLocation: SimpleLocation){
+        viewModelScope.launch {
+            val markers = repo.getLocations(latitude = simpleLocation.latitude, longitude = simpleLocation.longitude).map { pizzaUseCaseToPizzaMarkerUIStateUseCase(it) }
+            _uiState.value = PizzaMapScreenUIState.Success(markers, simpleLocation)
         }
     }
 }

@@ -36,8 +36,8 @@ data class Location(
     val distance: Int,
     val postalCode: String? = null,
     val cc: String,
-    val city: String,
-    val state: String,
+    val city: String? = null,
+    val state: String? = null,
     val country: String,
     val formattedAddress: List<String>
 )
