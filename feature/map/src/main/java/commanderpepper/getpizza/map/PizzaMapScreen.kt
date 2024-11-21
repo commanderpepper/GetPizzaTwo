@@ -13,7 +13,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.CameraMoveStartedReason
 import com.google.maps.android.compose.DefaultMapProperties
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MarkerComposable
@@ -61,7 +60,7 @@ fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, l
             Timber.tag("Humza").d("The camera position is ${cameraPositionState.position.target}")
             val lat = cameraPositionState.position.target.latitude
             val lng = cameraPositionState.position.target.longitude
-//            onCameraPositionChange(SimpleLocation(lat, lng))
+            onCameraPositionChange(SimpleLocation(lat, lng))
         }
     }
 
@@ -71,10 +70,12 @@ fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, l
         properties = DefaultMapProperties.copy(isMyLocationEnabled = true)
     ) {
         pizzaMarkers.forEach { pizzaMarker ->
+            val state = rememberMarkerState(key = pizzaMarker.id, position = LatLng(pizzaMarker.lat, pizzaMarker.lng))
             MarkerComposable(
+                keys = arrayOf(pizzaMarker.id),
                 tag = pizzaMarker.id,
                 title = pizzaMarker.name,
-                state = rememberMarkerState(position = LatLng(pizzaMarker.lat, pizzaMarker.lng)),
+                state = state,
                 onClick = { marker ->
                     Timber.tag("Humza").i(marker.title ?: "the tag is null")
                     false
