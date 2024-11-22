@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -55,6 +58,9 @@ fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, l
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(location.latitude, location.longitude), 12f)
     }
+    val pizzaMarkerUIState : MutableState<PizzaMarkerUIState?> = remember { mutableStateOf(null) }
+    val showPizzaMarkerInfo : MutableState<Boolean> = remember { mutableStateOf(false) }
+
     LaunchedEffect(cameraPositionState.position) {
         if(cameraPositionState.isMoving.not()){
             Timber.tag("Humza").d("The camera position is ${cameraPositionState.position.target}")
@@ -64,28 +70,50 @@ fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, l
         }
     }
 
-    GoogleMap(
-        modifier = modifier,
-        cameraPositionState = cameraPositionState,
-        properties = DefaultMapProperties.copy(isMyLocationEnabled = true)
-    ) {
-        pizzaMarkers.forEach { pizzaMarker ->
-            val state = rememberMarkerState(key = pizzaMarker.id, position = LatLng(pizzaMarker.lat, pizzaMarker.lng))
-            MarkerComposable(
-                keys = arrayOf(pizzaMarker.id),
-                tag = pizzaMarker.id,
-                title = pizzaMarker.name,
-                state = state,
-                onClick = { marker ->
-                    Timber.tag("Humza").i(marker.title ?: "the tag is null")
-                    false
-                }
-            ) {
-                Image(
-                    painter = painterResource(if (pizzaMarker.isFavorite) R.drawable.ic_pizza_favorite else R.drawable.ic_pizza_non_favorite),
-                    contentDescription = ""
-                )
+    Box {
+        GoogleMap(
+            modifier = modifier,
+            cameraPositionState = cameraPositionState,
+            properties = DefaultMapProperties.copy(isMyLocationEnabled = true),
+            onMapClick = { _ ->
+                showPizzaMarkerInfo.value = false
             }
+        ) {
+            pizzaMarkers.forEach { pizzaMarker ->
+                val state = rememberMarkerState(key = pizzaMarker.id, position = LatLng(pizzaMarker.lat, pizzaMarker.lng))
+                MarkerComposable(
+                    keys = arrayOf(pizzaMarker.id),
+                    tag = pizzaMarker.id,
+                    title = pizzaMarker.name,
+                    state = state,
+                    onClick = { marker ->
+                        Timber.tag("Humza").i(marker.title ?: "the tag is null")
+                        showPizzaMarkerInfo.value = true
+                        pizzaMarkerUIState.value = pizzaMarker
+                        true
+                    }
+                ) {
+                    Image(
+                        painter = painterResource(if (pizzaMarker.isFavorite) R.drawable.ic_pizza_favorite else R.drawable.ic_pizza_non_favorite),
+                        contentDescription = ""
+                    )
+                }
+            }
+        }
+        if(showPizzaMarkerInfo.value && pizzaMarkerUIState.value != null){
+            PizzaMarkerInfo(
+                modifier = Modifier.align(alignment = Alignment.BottomCenter),
+                onMapClick = { lat, lng ->
+
+                },
+                onFavoriteClick = { id ->
+
+                },
+                onSearchClick = { term ->
+
+                },
+                pizzaMarkerUIState = pizzaMarkerUIState.value!!
+            )
         }
     }
 }

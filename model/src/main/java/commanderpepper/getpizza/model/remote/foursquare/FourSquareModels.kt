@@ -32,7 +32,7 @@ data class Location(
     val crossStreet: String? = null,
     val lat: Float,
     val lng: Float,
-    val labeledLatLngs: List<LabeledLatLngs>,
+    val labeledLatLngs: List<LabeledLatLngs>? = emptyList(),
     val distance: Int,
     val postalCode: String? = null,
     val cc: String,
