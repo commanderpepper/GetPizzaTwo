@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import commanderpepper.getpizza.model.local.room.PizzaFav
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PizzaDAO  {
@@ -19,4 +20,7 @@ interface PizzaDAO  {
 
     @Delete
     suspend fun deletePizzaFav(pizzaFav: PizzaFav)
+
+    @Query("SELECT * from pizzafav WHERE favorite == 1")
+    fun getPizzaFavsFlow(): Flow<List<PizzaFav>>
 }

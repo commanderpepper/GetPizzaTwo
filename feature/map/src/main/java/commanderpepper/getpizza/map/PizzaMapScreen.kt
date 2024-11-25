@@ -30,14 +30,20 @@ import timber.log.Timber
 fun PizzaMapScreen(modifier: Modifier = Modifier.fillMaxSize(), viewModel: PizzaMapScreenViewModel = koinViewModel()){
     val uiState = viewModel.uiState.collectAsState()
     Box(modifier = modifier){
-        PizzaMapScreen(modifier = Modifier.fillMaxSize(), uiState = uiState.value) { sl ->
-            viewModel.updateLocation(sl)
-        }
+        PizzaMapScreen(
+            modifier = Modifier.fillMaxSize(),
+            uiState = uiState.value,
+            onFavoriteClick = { pizzaMarker ->
+                viewModel.onFavoriteClick(pizzaMarker)
+            },
+            onCameraPositionChange = { sl ->
+                viewModel.updateLocation(sl)
+            })
     }
 }
 
 @Composable
-fun PizzaMapScreen(modifier: Modifier, uiState: PizzaMapScreenUIState, onCameraPositionChange: (SimpleLocation) -> Unit){
+fun PizzaMapScreen(modifier: Modifier, uiState: PizzaMapScreenUIState, onCameraPositionChange: (SimpleLocation) -> Unit, onFavoriteClick: (PizzaMarkerUIState) -> Unit){
     when(uiState){
         PizzaMapScreenUIState.Error -> {
 
@@ -48,13 +54,13 @@ fun PizzaMapScreen(modifier: Modifier, uiState: PizzaMapScreenUIState, onCameraP
             }
         }
         is PizzaMapScreenUIState.Success -> {
-            PizzaMapScreen(modifier = modifier, pizzaMarkers = uiState.pizzaMarkers, location = uiState.simpleLocation, onCameraPositionChange)
+            PizzaMapScreen(modifier = modifier, pizzaMarkers = uiState.pizzaMarkers, favoritePizzaMarkers = uiState.pizzaFavoriteMarkers, location = uiState.simpleLocation, onCameraPositionChange, onFavoriteClick)
         }
     }
 }
 
 @Composable
-fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, location : SimpleLocation, onCameraPositionChange: (SimpleLocation) -> Unit) {
+fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, favoritePizzaMarkers: List<PizzaMarkerUIState>, location : SimpleLocation, onCameraPositionChange: (SimpleLocation) -> Unit, onFavoriteClick: (PizzaMarkerUIState) -> Unit) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(location.latitude, location.longitude), 12f)
     }
@@ -80,23 +86,13 @@ fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, l
             }
         ) {
             pizzaMarkers.forEach { pizzaMarker ->
-                val state = rememberMarkerState(key = pizzaMarker.id, position = LatLng(pizzaMarker.lat, pizzaMarker.lng))
-                MarkerComposable(
-                    keys = arrayOf(pizzaMarker.id),
-                    tag = pizzaMarker.id,
-                    title = pizzaMarker.name,
-                    state = state,
-                    onClick = { marker ->
-                        Timber.tag("Humza").i(marker.title ?: "the tag is null")
-                        showPizzaMarkerInfo.value = true
-                        pizzaMarkerUIState.value = pizzaMarker
-                        true
-                    }
-                ) {
-                    Image(
-                        painter = painterResource(if (pizzaMarker.isFavorite) R.drawable.ic_pizza_favorite else R.drawable.ic_pizza_non_favorite),
-                        contentDescription = ""
-                    )
+                CustomPizzaMarker(pizzaMarker, showPizzaMarkerInfo = { showPizzaMarkerInfo.value = it }){ state ->
+                    pizzaMarkerUIState.value = state
+                }
+            }
+            favoritePizzaMarkers.forEach { pizzaMarker ->
+                CustomPizzaMarker(pizzaMarker, showPizzaMarkerInfo = { showPizzaMarkerInfo.value = it }){ state ->
+                    pizzaMarkerUIState.value = state
                 }
             }
         }
@@ -106,8 +102,8 @@ fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, l
                 onMapClick = { lat, lng ->
 
                 },
-                onFavoriteClick = { id ->
-
+                onFavoriteClick = { pizzaMarker ->
+                    onFavoriteClick(pizzaMarker)
                 },
                 onSearchClick = { term ->
 
@@ -118,10 +114,39 @@ fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, l
     }
 }
 
+@Composable
+private fun CustomPizzaMarker(
+    pizzaMarker: PizzaMarkerUIState,
+    showPizzaMarkerInfo: (Boolean) -> Unit,
+    pizzaMarkerUIState: (PizzaMarkerUIState) -> Unit
+) {
+    val state = rememberMarkerState(
+        key = pizzaMarker.id,
+        position = LatLng(pizzaMarker.lat, pizzaMarker.lng)
+    )
+    MarkerComposable(
+        keys = arrayOf(pizzaMarker.id),
+        tag = pizzaMarker.id,
+        title = pizzaMarker.name,
+        state = state,
+        onClick = { marker ->
+            Timber.tag("Humza").i(marker.title ?: "the tag is null")
+            showPizzaMarkerInfo(true)
+            pizzaMarkerUIState(pizzaMarker)
+            false
+        }
+    ) {
+        Image(
+            painter = painterResource(if (pizzaMarker.isFavorite) R.drawable.ic_pizza_favorite else R.drawable.ic_pizza_non_favorite),
+            contentDescription = ""
+        )
+    }
+}
+
 @Preview
 @Composable
 fun PizzaMapScreenPreview(){
-    PizzaMapScreen(modifier = Modifier.fillMaxSize(), pizzaMarkers = emptyList<PizzaMarkerUIState>(), SimpleLocation(40.77,-73.97)){}
+    PizzaMapScreen(modifier = Modifier.fillMaxSize(), pizzaMarkers = emptyList<PizzaMarkerUIState>(), favoritePizzaMarkers = emptyList(), SimpleLocation(40.77,-73.97), {}){}
 }
 
 @Composable

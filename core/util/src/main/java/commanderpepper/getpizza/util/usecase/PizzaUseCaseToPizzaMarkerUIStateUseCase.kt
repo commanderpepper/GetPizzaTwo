@@ -10,7 +10,8 @@ class PizzaUseCaseToPizzaMarkerUIStateUseCase {
             name = pizzaUseCase.name,
             lat = pizzaUseCase.lat,
             lng = pizzaUseCase.lng,
-            address = pizzaUseCase.address
+            address = pizzaUseCase.address,
+            isFavorite = pizzaUseCase.isFavorite
         )
     }
 }

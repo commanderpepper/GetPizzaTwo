@@ -26,7 +26,7 @@ fun PizzaMarkerInfo(
     pizzaMarkerUIState: PizzaMarkerUIState,
     onMapClick: (Double, Double) -> Unit,
     onSearchClick: (String) -> Unit,
-    onFavoriteClick: (String) -> Unit) {
+    onFavoriteClick: (PizzaMarkerUIState) -> Unit) {
     Column(modifier = modifier.fillMaxWidth().background(color = Color.White).padding(8.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
             Text(pizzaMarkerUIState.name)
@@ -37,7 +37,7 @@ fun PizzaMarkerInfo(
             IconButton(onClick = { onSearchClick(pizzaMarkerUIState.address ?: pizzaMarkerUIState.name) }) {
                 Image(painter = painterResource(R.drawable.ic_search), contentDescription = "Search")
             }
-            IconButton(onClick = { onFavoriteClick(pizzaMarkerUIState.id) }) {
+            IconButton(onClick = { onFavoriteClick(pizzaMarkerUIState) }) {
                 Image(painter = painterResource(R.drawable.ic_favorite), contentDescription = "Favorite")
             }
         }
