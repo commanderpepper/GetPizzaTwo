@@ -34,7 +34,9 @@ fun PizzaMarkerInfo(
             IconButton(onClick = { onMapClick(pizzaMarkerUIState.lat, pizzaMarkerUIState.lng) }) {
                 Image(painter = painterResource(R.drawable.ic_map), contentDescription = "Go to maps")
             }
-            IconButton(onClick = { onSearchClick(pizzaMarkerUIState.address ?: pizzaMarkerUIState.name) }) {
+            IconButton(onClick = {
+                val searchTerm = pizzaMarkerUIState.address?.let { address -> pizzaMarkerUIState.name + " " + address  } ?: pizzaMarkerUIState.name
+                onSearchClick(searchTerm) }) {
                 Image(painter = painterResource(R.drawable.ic_search), contentDescription = "Search")
             }
             IconButton(onClick = { onFavoriteClick(pizzaMarkerUIState) }) {

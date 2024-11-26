@@ -22,7 +22,6 @@ class PizzaMapScreenViewModel(
     private val repo: PizzaRepo,
     private val pizzaUseCaseToPizzaMarkerUIStateUseCase: PizzaUseCaseToPizzaMarkerUIStateUseCase,
     private val pizzaMarkerUIStateUseCaseToPizzaUseCase: PizzaMarkerUIStateUseCaseToPizzaUseCase,
-    private val locationProvider: LocationProvider,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 

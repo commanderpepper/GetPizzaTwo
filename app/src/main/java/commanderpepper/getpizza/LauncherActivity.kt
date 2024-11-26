@@ -1,5 +1,7 @@
 package commanderpepper.getpizza
 
+import android.app.SearchManager
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,7 +28,12 @@ class LauncherActivity : ComponentActivity() {
             NavHost(navController = navController, startDestination = PermissionsDestination){
                 composable<MapDestination> {
                     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                        PizzaMapScreen(modifier = Modifier.fillMaxSize().padding(innerPadding))
+                        PizzaMapScreen(modifier = Modifier.fillMaxSize().padding(innerPadding), onMapIconClick = { }, onSearchClick = { searchTerm ->
+                            val intent = Intent(Intent.ACTION_WEB_SEARCH).apply {
+                                putExtra(SearchManager.QUERY, searchTerm)
+                            }
+                            startActivity(intent)
+                        })
                     }
                 }
                 composable<FavoritesDestination> {
