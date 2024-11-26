@@ -30,7 +30,7 @@ import timber.log.Timber
 fun PizzaMapScreen(
     modifier: Modifier = Modifier.fillMaxSize(),
     viewModel: PizzaMapScreenViewModel = koinViewModel(),
-    onMapIconClick: () -> Unit,
+    onMapIconClick: (PizzaMarkerUIState) -> Unit,
     onSearchClick: (String) -> Unit
 ){
     val uiState = viewModel.uiState.collectAsState()
@@ -38,6 +38,7 @@ fun PizzaMapScreen(
         PizzaMapScreen(
             modifier = Modifier.fillMaxSize(),
             uiState = uiState.value,
+            onMapIconClick = onMapIconClick,
             onFavoriteClick = { pizzaMarker ->
                 viewModel.onFavoriteClick(pizzaMarker)
             },
@@ -51,6 +52,7 @@ fun PizzaMapScreen(
 @Composable
 fun PizzaMapScreen(modifier: Modifier,
                    uiState: PizzaMapScreenUIState,
+                   onMapIconClick: (PizzaMarkerUIState) -> Unit,
                    onSearchClick: (String) -> Unit,
                    onCameraPositionChange: (SimpleLocation) -> Unit,
                    onFavoriteClick: (PizzaMarkerUIState) -> Unit
@@ -65,13 +67,30 @@ fun PizzaMapScreen(modifier: Modifier,
             }
         }
         is PizzaMapScreenUIState.Success -> {
-            PizzaMapScreen(modifier = modifier, pizzaMarkers = uiState.pizzaMarkers, favoritePizzaMarkers = uiState.pizzaFavoriteMarkers, location = uiState.simpleLocation, onSearchClick = onSearchClick, onCameraPositionChange, onFavoriteClick)
+            PizzaMapScreen(
+                modifier = modifier,
+                pizzaMarkers = uiState.pizzaMarkers,
+                favoritePizzaMarkers = uiState.pizzaFavoriteMarkers,
+                location = uiState.simpleLocation,
+                onMapIconClick = onMapIconClick,
+                onSearchClick = onSearchClick,
+                onCameraPositionChange,
+                onFavoriteClick
+            )
         }
     }
 }
 
 @Composable
-fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, favoritePizzaMarkers: List<PizzaMarkerUIState>, location : SimpleLocation, onSearchClick: (String) -> kotlin.Unit, onCameraPositionChange: (SimpleLocation) -> Unit, onFavoriteClick: (PizzaMarkerUIState) -> Unit) {
+fun PizzaMapScreen(
+    modifier: Modifier,
+    pizzaMarkers: List<PizzaMarkerUIState>,
+    favoritePizzaMarkers: List<PizzaMarkerUIState>,
+    location : SimpleLocation,
+    onMapIconClick: (PizzaMarkerUIState) -> Unit,
+    onSearchClick: (String) -> Unit,
+    onCameraPositionChange: (SimpleLocation) -> Unit,
+    onFavoriteClick: (PizzaMarkerUIState) -> Unit) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(location.latitude, location.longitude), 12f)
     }
@@ -110,8 +129,8 @@ fun PizzaMapScreen(modifier: Modifier, pizzaMarkers: List<PizzaMarkerUIState>, f
         if(showPizzaMarkerInfo.value && pizzaMarkerUIState.value != null){
             PizzaMarkerInfo(
                 modifier = Modifier.align(alignment = Alignment.BottomCenter),
-                onMapClick = { lat, lng ->
-
+                onMapClick = { pizzaMarker ->
+                    onMapIconClick(pizzaMarker)
                 },
                 onFavoriteClick = { pizzaMarker ->
                     onFavoriteClick(pizzaMarker)
@@ -157,7 +176,7 @@ private fun CustomPizzaMarker(
 @Preview
 @Composable
 fun PizzaMapScreenPreview(){
-    PizzaMapScreen(modifier = Modifier.fillMaxSize(), pizzaMarkers = emptyList<PizzaMarkerUIState>(), favoritePizzaMarkers = emptyList(), SimpleLocation(40.77,-73.97), {}, {}){}
+    PizzaMapScreen(modifier = Modifier.fillMaxSize(), pizzaMarkers = emptyList<PizzaMarkerUIState>(), favoritePizzaMarkers = emptyList(), SimpleLocation(40.77,-73.97), {}, {}, {}){}
 }
 
 @Composable

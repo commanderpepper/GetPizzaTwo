@@ -24,14 +24,14 @@ import commanderpepper.getpizza.model.feature.map.PizzaMarkerUIState
 fun PizzaMarkerInfo(
     modifier: Modifier,
     pizzaMarkerUIState: PizzaMarkerUIState,
-    onMapClick: (Double, Double) -> Unit,
+    onMapClick: (PizzaMarkerUIState) -> Unit,
     onSearchClick: (String) -> Unit,
     onFavoriteClick: (PizzaMarkerUIState) -> Unit) {
     Column(modifier = modifier.fillMaxWidth().background(color = Color.White).padding(8.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
             Text(pizzaMarkerUIState.name)
             Spacer(Modifier.weight(1f))
-            IconButton(onClick = { onMapClick(pizzaMarkerUIState.lat, pizzaMarkerUIState.lng) }) {
+            IconButton(onClick = { onMapClick(pizzaMarkerUIState) }) {
                 Image(painter = painterResource(R.drawable.ic_map), contentDescription = "Go to maps")
             }
             IconButton(onClick = {
@@ -53,7 +53,7 @@ fun PizzaMarkerInfo(
 @Composable
 fun PizzaMarkerInfoPreview(){
     Box(modifier = Modifier.fillMaxSize()) {
-        PizzaMarkerInfo(modifier = Modifier.align(alignment = Alignment.BottomCenter), PizzaMarkerUIStateSample, { _, _ ->}, {}, {})
+        PizzaMarkerInfo(modifier = Modifier.align(alignment = Alignment.BottomCenter), PizzaMarkerUIStateSample, {}, {}, {})
     }
 }
 
