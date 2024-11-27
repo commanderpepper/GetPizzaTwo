@@ -79,13 +79,13 @@ class LauncherActivity : ComponentActivity() {
                     composable<PermissionsDestination> {
                         PermissionsScreen(
                             onDismiss = { lat, lng ->
-                                val mapDestination = MapDestination(lat, lng)
+                                val mapDestination = MapDestination(lat, lng, false)
                                 navController.navigate(mapDestination) {
                                     launchSingleTop = true
                                 }
                             },
                             onPermissionGranted = { lat, lng ->
-                                val mapDestination = MapDestination(lat, lng)
+                                val mapDestination = MapDestination(lat, lng, true)
                                 navController.navigate(mapDestination) {
                                     launchSingleTop = true
                                 }

@@ -12,11 +12,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -67,16 +63,14 @@ fun PermissionsScreenStateLess(modifier: Modifier, onDismiss: () -> Unit, onPerm
             }
         }
         val permissionState = rememberPermissionState(Manifest.permission.ACCESS_COARSE_LOCATION)
-        var showAlertDialog by remember { mutableStateOf(permissionState.status.isGranted.not()) }
 
-        if(showAlertDialog){
+        if(permissionState.status.isGranted.not()){
             val rationalText = if (permissionState.status.shouldShowRationale) {
                 "Getting your location will show pizza joints near you"
             } else {
                 "Getting your location will show pizza joints near you (otherwise you'll be dropped in New York)"
             }
             BasicAlertDialog(onDismissRequest = {
-                showAlertDialog = false
                 onDismiss()
             }) {
                 Card() {
@@ -84,7 +78,6 @@ fun PermissionsScreenStateLess(modifier: Modifier, onDismiss: () -> Unit, onPerm
                     Button(
                         modifier = Modifier.padding(8.dp),
                         onClick = {
-                            showAlertDialog = false
                             launcher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
                         }) {
                         Text("Request permission")

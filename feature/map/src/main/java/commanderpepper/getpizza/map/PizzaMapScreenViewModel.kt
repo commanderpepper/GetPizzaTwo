@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.example.androidutil.LocationProvider
 import commanderpepper.getpizza.local.repo.PizzaRepo
 import commanderpepper.getpizza.model.feature.map.PizzaMarkerUIState
 import commanderpepper.getpizza.model.ui.MapDestination
@@ -27,7 +26,8 @@ class PizzaMapScreenViewModel(
 
     private val favorites = repo.getFavoriteLocations()
     private val locations = MutableStateFlow<List<PizzaUseCase>>(emptyList())
-    private val userLocation = savedStateHandle.toRoute<MapDestination>().let { SimpleLocation(latitude = it.latitude, longitude = it.longitude) }
+    private val mapDestination = savedStateHandle.toRoute<MapDestination>()
+    private val userLocation = mapDestination.let { SimpleLocation(latitude = it.latitude, longitude = it.longitude) }
 
     val uiState = favorites.combine(locations){ favs, locations ->
         if(locations.isEmpty()){
@@ -37,7 +37,8 @@ class PizzaMapScreenViewModel(
             PizzaMapScreenUIState.Success(
                 pizzaMarkers = locations.map { pizzaUseCaseToPizzaMarkerUIStateUseCase(it) },
                 pizzaFavoriteMarkers = favs.map { pizzaUseCaseToPizzaMarkerUIStateUseCase(it) },
-                simpleLocation = userLocation
+                simpleLocation = userLocation,
+                userLocationEnabled = mapDestination.userLocationEnabled
             )
         }
     }.stateIn(

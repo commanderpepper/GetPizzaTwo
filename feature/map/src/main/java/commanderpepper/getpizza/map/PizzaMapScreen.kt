@@ -69,6 +69,7 @@ fun PizzaMapScreen(modifier: Modifier,
         is PizzaMapScreenUIState.Success -> {
             PizzaMapScreen(
                 modifier = modifier,
+                userLocationEnabled = uiState.userLocationEnabled,
                 pizzaMarkers = uiState.pizzaMarkers,
                 favoritePizzaMarkers = uiState.pizzaFavoriteMarkers,
                 location = uiState.simpleLocation,
@@ -84,6 +85,7 @@ fun PizzaMapScreen(modifier: Modifier,
 @Composable
 fun PizzaMapScreen(
     modifier: Modifier,
+    userLocationEnabled: Boolean,
     pizzaMarkers: List<PizzaMarkerUIState>,
     favoritePizzaMarkers: List<PizzaMarkerUIState>,
     location : SimpleLocation,
@@ -110,7 +112,7 @@ fun PizzaMapScreen(
         GoogleMap(
             modifier = modifier,
             cameraPositionState = cameraPositionState,
-            properties = DefaultMapProperties.copy(isMyLocationEnabled = true),
+            properties = DefaultMapProperties.copy(isMyLocationEnabled = userLocationEnabled),
             onMapClick = { _ ->
                 showPizzaMarkerInfo.value = false
             }
@@ -171,12 +173,6 @@ private fun CustomPizzaMarker(
             contentDescription = ""
         )
     }
-}
-
-@Preview
-@Composable
-fun PizzaMapScreenPreview(){
-    PizzaMapScreen(modifier = Modifier.fillMaxSize(), pizzaMarkers = emptyList<PizzaMarkerUIState>(), favoritePizzaMarkers = emptyList(), SimpleLocation(40.77,-73.97), {}, {}, {}){}
 }
 
 @Composable
