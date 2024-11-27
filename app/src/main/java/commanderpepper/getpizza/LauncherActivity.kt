@@ -8,6 +8,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,6 +17,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.compose.NavHost
@@ -36,20 +39,23 @@ class LauncherActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
+            val showTopBar = rememberSaveable { mutableStateOf(false) }
             Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-                TopAppBar(title = { Text("Get Pizza") }, actions = {
-                    IconButton(onClick = {
-                        navController.navigate(FavoritesDestination) {
-                            launchSingleTop = true
+                AnimatedVisibility(showTopBar.value) {
+                    TopAppBar(title = { Text("Get Pizza") }, actions = {
+                        IconButton(onClick = {
+                            navController.navigate(FavoritesDestination) {
+                                launchSingleTop = true
+                            }
+                        }) {
+                            Image(
+                                painter = painterResource(
+                                    commanderpepper.getpizza.map.R.drawable.ic_favorite
+                                ), contentDescription = "Favorites"
+                            )
                         }
-                    }) {
-                        Image(
-                            painter = painterResource(
-                                commanderpepper.getpizza.map.R.drawable.ic_favorite
-                            ), contentDescription = "Favorites"
-                        )
-                    }
-                })
+                    })
+                }
             }) { innerPadding ->
                 NavHost(
                     modifier = Modifier.padding(innerPadding),
@@ -57,6 +63,7 @@ class LauncherActivity : ComponentActivity() {
                     startDestination = PermissionsDestination
                 ) {
                     composable<MapDestination> {
+                        showTopBar.value = true
                         PizzaMapScreen(
                             modifier = Modifier
                                 .fillMaxSize(),
@@ -74,7 +81,7 @@ class LauncherActivity : ComponentActivity() {
 
                     }
                     composable<FavoritesDestination> {
-
+                        showTopBar.value = true
                     }
                     composable<PermissionsDestination> {
                         PermissionsScreen(
