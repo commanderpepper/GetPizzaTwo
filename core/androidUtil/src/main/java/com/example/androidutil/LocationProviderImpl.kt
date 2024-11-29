@@ -30,4 +30,29 @@ class LocationProviderImpl(private val fusedLocationProviderClient: FusedLocatio
             SimpleLocation(40.77,-73.97)
         }
     }
+
+    override suspend fun providerUserLocation(): SimpleLocation? {
+        return try {
+            if(permissionChecker.checkLocationPermission()){
+                val request = CurrentLocationRequest.Builder()
+                    .setPriority(Priority.PRIORITY_BALANCED_POWER_ACCURACY)
+                    .build()
+                val data = fusedLocationProviderClient.getCurrentLocation(request, null).await()
+
+                if(data != null){
+                    SimpleLocation(latitude = data.latitude, longitude = data.longitude)
+                }
+                else {
+                    null
+                }
+            }
+            else
+            {
+                null
+            }
+        }
+        catch (e: Exception){
+            null
+        }
+    }
 }

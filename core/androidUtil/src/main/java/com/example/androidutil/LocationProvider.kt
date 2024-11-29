@@ -4,4 +4,6 @@ import commanderpepper.getpizza.model.util.SimpleLocation
 
 interface LocationProvider {
     suspend fun provideLocation(): SimpleLocation
+
+    suspend fun providerUserLocation(): SimpleLocation?
 }

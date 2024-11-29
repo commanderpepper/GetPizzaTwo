@@ -5,5 +5,5 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val favoritesScreenModule = module {
-    viewModel { FavoritesScreenViewModel(get(), get()) }
+    viewModel { FavoritesScreenViewModel(get(), get(), get()) }
 }

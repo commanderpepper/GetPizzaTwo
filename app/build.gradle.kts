@@ -66,12 +66,12 @@ android {
 
 dependencies {
     implementation(project(":core:util"))
+    implementation(project(":core:androidUtil"))
     implementation(project(":feature:map"))
     implementation(project(":feature:permissions"))
     implementation(project(":feature:favorites"))
     implementation(project(":data:local"))
     implementation(project(":data:remote"))
-    implementation(project(":core:androidUtil"))
     implementation(project(":model"))
 
     implementation(libs.androidx.core.ktx)

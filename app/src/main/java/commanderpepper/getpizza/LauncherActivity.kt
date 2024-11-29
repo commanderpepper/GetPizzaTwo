@@ -51,7 +51,7 @@ class LauncherActivity : ComponentActivity() {
                         }) {
                             Image(
                                 painter = painterResource(
-                                    commanderpepper.getpizza.map.R.drawable.ic_favorite
+                                    commanderpepper.getpizza.androidutil.R.drawable.ic_favorite
                                 ), contentDescription = "Favorites"
                             )
                         }
@@ -82,7 +82,7 @@ class LauncherActivity : ComponentActivity() {
 
                     }
                     composable<FavoritesDestination> {
-                        showTopBar.value = false
+                        showTopBar.value = true
                         FavoritesScreen(
                             onMapIconClick = { sl ->
                                 val mapDestination = MapDestination(sl.latitude, sl.longitude, false)
