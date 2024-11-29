@@ -15,18 +15,18 @@ android {
         compose = true
     }
 
+    val keystoreFile = project.rootProject.file("api.properties")
+    val properties = Properties()
+    properties.load(keystoreFile.inputStream())
+
     defaultConfig {
         applicationId = "commanderpepper.getpizza"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 10
+        versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        val keystoreFile = project.rootProject.file("api.properties")
-        val properties = Properties()
-        properties.load(keystoreFile.inputStream())
 
         val clientID = properties.getProperty("FOURSQUARE_CLIENT_ID") ?: ""
         buildConfigField(
@@ -46,9 +46,19 @@ android {
         manifestPlaceholders["GOOGLE_MAP_KEY"] = googleApiKey
     }
 
+    signingConfigs {
+        create("release"){
+            keyAlias = properties.getProperty("ALIAS_NAME")
+            keyPassword = properties.getProperty("ALIAS_PW")
+            storeFile = file("./android.jks")
+            storePassword = properties.getProperty("JKS_PW")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
