@@ -24,6 +24,7 @@ accompanistPermissions = "0.36.0"
 playServicesLocationVersion = "21.3.0"
 navigation = "2.8.4"
 timber = "5.0.1"
+mapsKtx = "5.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -75,6 +76,7 @@ google-maps = { group = "com.google.maps.android", name = "maps-compose", versio
 androidx-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-savedstate = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-savedstate", version.ref = "lifecycle" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+maps-ktx = { group = "com.google.maps.android", name = "maps-ktx", version.ref = "mapsKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">GetPizzaTwo</string>
-    <string name="title_activity_launcher">LauncherActivity</string>
+    <string name="title_activity_launcher">Get Pizza</string>
 </resources>
