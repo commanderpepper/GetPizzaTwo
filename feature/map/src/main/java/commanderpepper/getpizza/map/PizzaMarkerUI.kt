@@ -37,7 +37,7 @@ fun PizzaMarkerUI(pizzaMarkerUIState: PizzaMarkerUIState) {
         , verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     modifier = Modifier.padding(4.dp),
-                    painter = painterResource(if (pizzaMarkerUIState.isFavorite) R.drawable.ic_pizza_favorite else R.drawable.ic_pizza_non_favorite),
+                    painter = painterResource(if (pizzaMarkerUIState.isFavorite) commanderpepper.getpizza.androidutil.R.drawable.ic_pizza_favorite else commanderpepper.getpizza.androidutil.R.drawable.ic_pizza_non_favorite),
                     contentDescription = ""
                 )
             Text(modifier = Modifier.padding(4.dp), text = pizzaMarkerUIState.name)

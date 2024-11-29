@@ -32,15 +32,15 @@ fun PizzaMarkerInfo(
             Text(pizzaMarkerUIState.name)
             Spacer(Modifier.weight(1f))
             IconButton(onClick = { onMapClick(pizzaMarkerUIState) }) {
-                Image(painter = painterResource(R.drawable.ic_map), contentDescription = "Go to maps")
+                Image(painter = painterResource(commanderpepper.getpizza.androidutil.R.drawable.ic_map), contentDescription = "Go to maps")
             }
             IconButton(onClick = {
                 val searchTerm = pizzaMarkerUIState.address?.let { address -> pizzaMarkerUIState.name + " " + address  } ?: pizzaMarkerUIState.name
                 onSearchClick(searchTerm) }) {
-                Image(painter = painterResource(R.drawable.ic_search), contentDescription = "Search")
+                Image(painter = painterResource(commanderpepper.getpizza.androidutil.R.drawable.ic_search), contentDescription = "Search")
             }
             IconButton(onClick = { onFavoriteClick(pizzaMarkerUIState) }) {
-                Image(painter = painterResource(R.drawable.ic_favorite), contentDescription = "Favorite")
+                Image(painter = painterResource(commanderpepper.getpizza.androidutil.R.drawable.ic_favorite), contentDescription = "Favorite")
             }
         }
         if(pizzaMarkerUIState.address != null && pizzaMarkerUIState.address?.isNotEmpty() == true){

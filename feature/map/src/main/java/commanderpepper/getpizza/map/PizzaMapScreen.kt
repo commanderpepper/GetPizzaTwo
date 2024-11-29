@@ -169,7 +169,7 @@ private fun CustomPizzaMarker(
         }
     ) {
         Image(
-            painter = painterResource(if (pizzaMarker.isFavorite) R.drawable.ic_pizza_favorite else R.drawable.ic_pizza_non_favorite),
+            painter = painterResource(if (pizzaMarker.isFavorite) commanderpepper.getpizza.androidutil.R.drawable.ic_pizza_favorite else commanderpepper.getpizza.androidutil.R.drawable.ic_pizza_non_favorite),
             contentDescription = ""
         )
     }

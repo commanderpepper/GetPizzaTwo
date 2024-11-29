@@ -25,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.permissions.PermissionsScreen
+import commanderpepper.getpizza.favorites.FavoritesScreen
 import commanderpepper.getpizza.map.PizzaMapScreen
 import commanderpepper.getpizza.model.feature.map.PizzaMarkerUIState
 import commanderpepper.getpizza.model.ui.FavoritesDestination
@@ -81,7 +82,21 @@ class LauncherActivity : ComponentActivity() {
 
                     }
                     composable<FavoritesDestination> {
-                        showTopBar.value = true
+                        showTopBar.value = false
+                        FavoritesScreen(
+                            onMapIconClick = { sl ->
+                                val mapDestination = MapDestination(sl.latitude, sl.longitude, false)
+                                navController.navigate(mapDestination) {
+                                    launchSingleTop = true
+                                }
+                            },
+                            onSearchIconClick = { searchTerm ->
+                                val intent = Intent(Intent.ACTION_WEB_SEARCH).apply {
+                                    putExtra(SearchManager.QUERY, searchTerm)
+                                }
+                                startActivity(intent)
+                            }
+                        )
                     }
                     composable<PermissionsDestination> {
                         PermissionsScreen(

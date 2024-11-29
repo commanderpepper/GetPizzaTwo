@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.androidutil.di.androidUtilModule
 import com.example.permissions.di.permissionsModule
 import commanderpepper.getpizza.di.remoteModule
+import commanderpepper.getpizza.favorites.di.favoritesScreenModule
 import commanderpepper.getpizza.local.room.di.localModule
 import commanderpepper.getpizza.map.pizzaMapScreenModule
 import commanderpepper.getpizza.util.di.utilModule
@@ -20,7 +21,7 @@ class PizzaMapApplication: Application() {
 
         startKoin {
             androidContext(this@PizzaMapApplication)
-            modules(pizzaMapScreenModule, localModule, remoteModule, utilModule, androidUtilModule, permissionsModule)
+            modules(pizzaMapScreenModule, localModule, remoteModule, utilModule, androidUtilModule, permissionsModule, favoritesScreenModule)
         }
     }
 }
