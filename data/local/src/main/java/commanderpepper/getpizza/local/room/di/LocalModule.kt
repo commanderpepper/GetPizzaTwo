@@ -9,7 +9,7 @@ import org.koin.dsl.module
 
 val localModule = module {
     single {
-        Room.databaseBuilder(androidApplication(), PizzaDatabase::class.java, "pizza-db").build()
+        Room.databaseBuilder(androidApplication(), PizzaDatabase::class.java, "getPizzaTwo-db").build()
     }
     single<PizzaDAO> {
         val db = get<PizzaDatabase>()
