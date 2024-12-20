@@ -60,5 +60,6 @@ private val PizzaMarkerUIStateSample = PizzaMarkerUIState(
     "1234 Address",
     lat = 1.0,
     lng = 2.0,
-    isFavorite = false
+    isFavorite = false,
+    isVisible = true
 )

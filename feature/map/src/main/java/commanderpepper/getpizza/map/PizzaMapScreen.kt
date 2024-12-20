@@ -118,8 +118,10 @@ fun PizzaMapScreen(
             }
         ) {
             pizzaMarkers.forEach { pizzaMarker ->
-                CustomPizzaMarker(pizzaMarker, showPizzaMarkerInfo = { showPizzaMarkerInfo.value = it }){ state ->
-                    pizzaMarkerUIState.value = state
+                if(pizzaMarker.isVisible){
+                    CustomPizzaMarker(pizzaMarker, showPizzaMarkerInfo = { showPizzaMarkerInfo.value = it }){ state ->
+                        pizzaMarkerUIState.value = state
+                    }
                 }
             }
             favoritePizzaMarkers.forEach { pizzaMarker ->

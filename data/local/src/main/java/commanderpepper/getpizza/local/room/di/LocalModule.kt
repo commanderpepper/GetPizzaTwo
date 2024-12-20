@@ -16,6 +16,6 @@ val localModule = module {
         db.pizzaDao()
     }
     factory {
-        PizzaRepo(get(), get(), get(), get())
+        PizzaRepo(get(), get(), get(), get(), get())
     }
 }

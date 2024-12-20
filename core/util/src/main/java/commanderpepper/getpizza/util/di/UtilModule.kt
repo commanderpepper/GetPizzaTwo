@@ -1,5 +1,6 @@
 package commanderpepper.getpizza.util.di
 
+import commanderpepper.getpizza.util.usecase.CompareSimpleLocationsUseCase
 import commanderpepper.getpizza.util.usecase.PizzaFavAndVenueToPizzaUseCase
 import commanderpepper.getpizza.util.usecase.PizzaMarkerUIStateUseCaseToPizzaUseCase
 import commanderpepper.getpizza.util.usecase.PizzaUseCaseToFavoritesItemUseCase
@@ -9,8 +10,9 @@ import org.koin.dsl.module
 
 val utilModule = module {
     single { PizzaFavAndVenueToPizzaUseCase() }
-    single { PizzaUseCaseToPizzaMarkerUIStateUseCase() }
+    single { PizzaUseCaseToPizzaMarkerUIStateUseCase(get()) }
     single { PizzaMarkerUIStateUseCaseToPizzaUseCase() }
     single { PizzaUseCaseToPizzaFavUseCase() }
     single { PizzaUseCaseToFavoritesItemUseCase() }
+    single { CompareSimpleLocationsUseCase() }
 }

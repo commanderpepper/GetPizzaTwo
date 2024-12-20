@@ -6,5 +6,6 @@ data class PizzaMarkerUIState(
     val address: String?,
     val lat: Double,
     val lng: Double,
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val isVisible: Boolean
 )

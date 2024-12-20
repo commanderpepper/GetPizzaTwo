@@ -28,16 +28,17 @@ class PizzaMapScreenViewModel(
     private val locations = MutableStateFlow<List<PizzaUseCase>>(emptyList())
     private val mapDestination = savedStateHandle.toRoute<MapDestination>()
     private val userLocation = mapDestination.let { SimpleLocation(latitude = it.latitude, longitude = it.longitude) }
+    private val cameraLocation = MutableStateFlow(userLocation)
 
-    val uiState = favorites.combine(locations){ favs, locations ->
-        if(locations.isEmpty()){
+    val uiState = combine(favorites, locations, cameraLocation) { favs, locations, camera ->
+        if(locations.isEmpty() && favs.isEmpty()){
             PizzaMapScreenUIState.Error
         }
         else {
             PizzaMapScreenUIState.Success(
-                pizzaMarkers = locations.map { pizzaUseCaseToPizzaMarkerUIStateUseCase(it) },
-                pizzaFavoriteMarkers = favs.map { pizzaUseCaseToPizzaMarkerUIStateUseCase(it) },
-                simpleLocation = userLocation,
+                pizzaMarkers = locations.map { pizzaUseCaseToPizzaMarkerUIStateUseCase(it, camera) },
+                pizzaFavoriteMarkers = favs.map { pizzaUseCaseToPizzaMarkerUIStateUseCase(it, camera) },
+                simpleLocation = camera,
                 userLocationEnabled = mapDestination.userLocationEnabled
             )
         }
@@ -55,6 +56,7 @@ class PizzaMapScreenViewModel(
 
     fun updateLocation(simpleLocation: SimpleLocation){
         viewModelScope.launch {
+            cameraLocation.value = simpleLocation
             val markers = repo.getLocations(latitude = simpleLocation.latitude, longitude = simpleLocation.longitude)
             locations.value = markers
         }
