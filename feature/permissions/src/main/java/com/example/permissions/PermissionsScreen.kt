@@ -54,7 +54,7 @@ fun PermissionsScreen(
 @Composable
 fun PermissionsScreenStateLess(modifier: Modifier, onDismiss: () -> Unit, onPermissionGranted: () -> Unit) {
     Box(modifier = modifier){
-        val launcher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        val permissionState = rememberPermissionState(Manifest.permission.ACCESS_COARSE_LOCATION){ isGranted ->
             if(isGranted){
                 onPermissionGranted()
             }
@@ -62,7 +62,6 @@ fun PermissionsScreenStateLess(modifier: Modifier, onDismiss: () -> Unit, onPerm
                 onDismiss()
             }
         }
-        val permissionState = rememberPermissionState(Manifest.permission.ACCESS_COARSE_LOCATION)
 
         if(permissionState.status.isGranted.not()){
             val rationalText = if (permissionState.status.shouldShowRationale) {
@@ -78,7 +77,7 @@ fun PermissionsScreenStateLess(modifier: Modifier, onDismiss: () -> Unit, onPerm
                     Button(
                         modifier = Modifier.padding(8.dp),
                         onClick = {
-                            launcher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+                            permissionState.launchPermissionRequest()
                         }) {
                         Text("Request permission")
                     }
